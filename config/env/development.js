@@ -3,7 +3,7 @@
 module.exports = {
     db: 'mongodb://gbachik:freedom347@ds033429.mongolab.com:33429/gbachiktesting',
     app: {
-        name: 'MEAN - A Modern Stack - Development'
+        name: 'Soldfy'
     },
     facebook: {
         clientID: '1409279572662180',

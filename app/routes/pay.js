@@ -7,9 +7,9 @@ module.exports = function(app) {
 	var paypal = new Paypal({
 		currencyCode : 'USD',
 		applicationId : 'APP-80W284485P519543T',
-		cancelUrl : 'http://<yourdomain>/cancel',
-		returnUrl : 'http://<yourdomain>/complete',
-		ipnUrl : 'http://<yourdomain>/ipn',
+		cancelUrl : 'http://soldfy.herokuapp.com/cancel',
+		returnUrl : 'http://soldfy.herokuapp.com/complete',
+		ipnUrl : 'http://soldfy.herokuapp.com/ipn',
 		reverseAllParallelPaymentsOnError : true,
 		signature:  'AFcWxV21C7fd0v3bYYYRCpSSRl31A8z-7FjDfLT1FGelFZbbXwEGlJTZ'
 	});
@@ -56,5 +56,5 @@ module.exports = function(app) {
 	app.get('/complete', function(/*req, res, next*/){
 	//triggers when the user completes the payflow successfull
 	});
-	
+
 };

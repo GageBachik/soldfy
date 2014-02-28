@@ -1,0 +1,28 @@
+<section data-ng-controller="ArticlesController" data-ng-init="findDownload()">
+
+<style type="text/css"> body {
+   padding-left: 0;
+   padding-right: 0;
+ }
+ .container-fluid .heading {
+   font-size: 50px;
+   text-align: center;
+ }
+ .container-fluid .well p {
+   text-align: center;
+ }
+ .container-fluid .row-fluid .span6 p {
+   text-align: center;
+ }</style>
+     <div class="container-fluid">
+      <h1 class="heading">{{article.title}}</h1>
+      <div class="well">
+        <p>{{article.content}}</p>
+      </div>
+      <div class="row-fluid">
+        <span class="span6">
+          <p>Pay with PP | Pay with BTC</p>
+        </span>
+      </div>
+    </div>
+</section>

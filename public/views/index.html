@@ -1,0 +1,88 @@
+<section data-ng-controller="IndexController" ng-init="findMe()">
+
+	<!-- Logged in -->
+
+	<section data-ng-show="global.authenticated">
+	<section ng-hide="hasArticles">
+		<h1>Why not create a new product?</h1>
+	</section>
+	<section ng-show="hasArticles">	
+	<div class="panel panel-default">
+ 	<!-- Default panel contents -->
+  	<div class="panel-heading"> My Products:</div>
+		<ul class="list-group">
+			<li class="list-group-item" data-ng-repeat="article in articles">
+				<h2><a data-ng-href="#!/articles/{{article._id}}">{{article.title}}</a></h2>
+			</li>
+		</ul>
+	</div>
+	</section>
+	</section>
+
+	<!-- New User -->
+
+	<section class="content" data-ng-hide="global.authenticated">
+		<h1>A Platform for Selling Digital Downloads</h1>
+		<br />
+		<br />
+            <section class="container">
+  		        
+    <div class="row">
+        <div class="col-md-offset-1 col-md-5">
+
+        <h3>Upload and sell ebooks, music, videos, <br />
+                software or anything else digital.
+          </h3>
+          <br />
+          <i class="glyphicon glyphicon-floppy-disk">  </i><h4 style="display:inline;"> Instanly sell </h4><p style="display:inline;">any type of digital file.</p>
+          <br /> <br />
+          <i class="glyphicon glyphicon-credit-card">  </i><h4 style="display:inline;"> Accept both </h4><p style="display:inline;">Bitcoin and Paypal for paymits.</p>
+          <br /> <br />
+          <i class="glyphicon glyphicon-thumbs-up">  </i><h4 style="display:inline;"> Pay nothing </h4><p style="display:inline;">upfront for our service.</p>
+        
+        </div>
+        <div class="col-md-6">
+            
+            
+    <form class="signin form-horizontal" action="/users" method="post">
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Full Name</label>
+            <div class="col-md-8">
+                <input id="name" class="form-control" type="text" name="name" placeholder="Full Name" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="email">Email</label>
+            <div class="col-md-8">
+                <input id="email" class="form-control" type="text" name="email" placeholder="Email" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="username">Username</label>
+            <div class="col-md-8">
+                <input id="username" class="form-control" type="text" name="username" placeholder="Username" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="password">Password</label>
+            <div class="col-md-8">
+                <input id="password" class="form-control" type="password" name="password" placeholder="Password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <button class="btn btn-success" type="submit">Sign up</button> or 
+                <a class="btn btn-facebook" href="/auth/facebook">Login With Facebook</a>
+            </div>
+        </div>
+        </div>
+    </form>
+
+        </div>
+    </div>
+
+            </section>
+        </section>
+
+</section>

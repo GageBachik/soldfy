@@ -33,7 +33,7 @@ module.exports = function(app) {
 				reverseAllParallelPaymentsOnError : true,
 				receiverList: {
 					receiver: [{
-						email: 'gbachik-facilitator@gmail.com',
+						email: 'gbachik@gmail.com',
 						amount: ourFee,
 						primary:'false'
 					},{

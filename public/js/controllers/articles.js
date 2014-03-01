@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', function ($scope, $stateParams, $location, Global, Articles) {
+angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', '$http', '$window', function ($scope, $stateParams, $location, Global, Articles, $http, $window) {
     $scope.global = Global;
     $scope.paypal = true;
 
@@ -77,6 +77,21 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
             articleId: $stateParams.downloadId
         }, function(article) {
             $scope.article = article;
+        });
+    };
+    $scope.payWithPaypal = function(){
+        $http({
+            method: 'GET',
+            url: '/pay/' + $stateParams.downloadId
+        }).success(function(data/*, status, headers, config*/) {
+            // data contains the response
+            // status is the HTTP status
+            // headers is the header getter function
+            // config is the object that was used to create the HTTP request
+            console.log('A success get request was made!');
+            $window.location.href = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey=' + data.payKey;
+        }).error(function(/*data, status, headers, config*/) {
+
         });
     };
 }]);

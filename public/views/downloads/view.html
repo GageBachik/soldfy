@@ -29,7 +29,7 @@
       </div>
       <div class="row-fluid">
         <span class="span6">
-          <button class="btn btn-vk" ng-click="payWithPaypal()">Pay with Paypal</button> | <button class="btn btn-github" ng-click="paywithBitcoin()">Pay with Bitcoin</button>
+          <button class="btn btn-vk" ng-show="article.paypal" ng-click="payWithPaypal()">Pay with Paypal</button><button class="btn btn-github" ng-show="article.bitcoin" ng-click="paywithBitcoin()">Pay with Bitcoin</button>
         </span>
       </div>
     </div>

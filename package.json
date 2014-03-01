@@ -63,7 +63,8 @@
     "paypal-ap": "0.0.6",
     "knox": "~0.8.9",
     "mime": "~1.2.11",
-    "httperror": "~0.2.0"
+    "httperror": "~0.2.0",
+    "paypal-adaptive": "~0.4.1"
   },
   "devDependencies": {
     "supertest": "0.8.2",

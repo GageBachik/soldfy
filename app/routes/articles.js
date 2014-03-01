@@ -11,7 +11,6 @@ var knox = require('knox').createClient({
     bucket: 'soldfy'
 });
 var mime = require('mime');
-var HttpError = require('httperror');
 
 // Article authorization helpers
 var hasAuthorization = function(req, res, next) {
@@ -41,8 +40,7 @@ module.exports = function(app) {
         var fileName = uuid.v4() + '.' + extension;
         var fileURL = 'https://soldfy.s3.amazonaws.com/' + fileName;
 
-        if (!(mimetype.localeCompare('application/octet-stream'))) {
-
+        if (mimetype !== 'application/octet-stream') {
             s3req = knox.putStream(stream, fileName,
                 {
                     'Content-Type': mimetype,
@@ -55,7 +53,8 @@ module.exports = function(app) {
                 }
            );
         } else {
-            next(new HttpError(400));
+            var err = new Error('File Type Not Allowed!');
+            next(err);
         }
 
         s3req.on('response', function(s3res){
@@ -70,11 +69,11 @@ module.exports = function(app) {
                         ppEmail: req.param('ppEmail'),
                         fileURL: fileURL
                     };
-
                 res.end(JSON.stringify(responseObj));
 
             } else {
-                next(new HttpError(res.statusCode));
+                var err = new Error('Upload Failed!');
+                next(err);
             }
         });
     });

@@ -1,7 +1,7 @@
 <section data-ng-controller="ArticlesController" data-ng-init="findOne()">
     <h2>{{article.title}}</h2>
     <div>{{article.content}}</div>
-    <p>Sell Url: </p><div>{{article.sellURL}}</div>
+    <p>Sell Url: <a ng-href="{{article.sellURL}}">{{article.sellURL}}</a></p>
     <div data-ng-show="global.user._id == article.user._id">
         <a class="btn" href="/#!/articles/{{article._id}}/edit">
             <i class="glyphicon glyphicon-edit"></i>

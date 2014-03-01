@@ -88,10 +88,9 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
             // status is the HTTP status
             // headers is the header getter function
             // config is the object that was used to create the HTTP request
-            console.log('A success get request was made!');
             $window.location.href = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey=' + data.payKey;
-        }).error(function(/*data, status, headers, config*/) {
-
+        }).error(function(data/*, status, headers, config*/) {
+            console.log(data);
         });
     };
 }]);

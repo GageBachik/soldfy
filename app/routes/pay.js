@@ -6,6 +6,7 @@ var uuid = require('node-uuid');
 var ipn = require('paypal-ipn');
 var Paypal = require('paypal-ap');
 var paypal = new Paypal({
+	applicationId: 'APP-8BB92250VW021833V',
 	username:  'gbachik-facilitator_api1.gmail.com',
     password:  '1393581229',
     signature: 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-A0-y.5ij40isgBfYOT.pvUsu0O.M'

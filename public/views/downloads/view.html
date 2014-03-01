@@ -20,6 +20,9 @@
  .footer{
   text-align: center;
  }
+ .centered{
+  text-align: center;
+ }
 </style>
 
     <div class="container-fluid">
@@ -31,7 +34,10 @@
         <span class="span6">
           <button class="btn btn-vk" ng-show="article.paypal" ng-click="payWithPaypal()">Pay with Paypal</button><button class="btn btn-github" ng-show="article.bitcoin" ng-click="paywithBitcoin()">Pay with Bitcoin</button>
         </span>
-      </div>
+      </div> <br />
+      <div ng-show="procPayment" class="alert alert-info centered">
+                Processing... Please do not close or refresh the page! -Thanks
+          </div>
     </div>
 
 <footer class="footer">Sell Digital Goods Online @ Soldfy.com</footer>

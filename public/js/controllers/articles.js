@@ -3,6 +3,8 @@
 angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', '$http', '$window', function ($scope, $stateParams, $location, Global, Articles, $http, $window) {
     $scope.global = Global;
     $scope.paypal = true;
+    $scope.procPayment = false;
+    $scope.currentDownload = $stateParams.downloadId;
 
     $scope.uploadComplete = function (content) {
             $scope.response = content;
@@ -80,6 +82,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
         });
     };
     $scope.payWithPaypal = function(){
+        $scope.procPayment = true;
         $http({
             method: 'GET',
             url: '/pay/' + $stateParams.downloadId

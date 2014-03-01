@@ -8,7 +8,7 @@ module.exports = {
     facebook: {
         clientID: '472103969579095',
         clientSecret: '9740987777d35699ccfee758c34b2881',
-        callbackURL: 'http://soldfy.herokuapp.com/auth/facebook/callback'
+        callbackURL: 'http://soldfy.com/auth/facebook/callback'
     },
     twitter: {
         clientID: 'CONSUMER_KEY',

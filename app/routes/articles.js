@@ -104,8 +104,10 @@ module.exports = function(app) {
                         paypal: req.param('paypal'),
                         bitcoin: req.param('bitcoin'),
                         ppEmail: req.param('ppEmail'),
-                        fileURL: req.url
+                        fileURL: res.url
                     };
+                console.log(req);
+                console.log(res);
                 res.send(JSON.stringify(responseObj));
             } else {
                 next(new HttpError(res.statusCode));

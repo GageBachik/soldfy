@@ -6,6 +6,8 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.uploadComplete = function (content) {
             $scope.response = content;
+            console.log($scope.response.fileURL);
+            console.log($scope.fileURL);
             var theId = '';
             var article = new Articles({
                 title: $scope.title,
@@ -27,7 +29,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
             $scope.title = '';
             $scope.description = '';
-            $scope.paypal = true;
+            $scope.paypal = false;
             $scope.bitoin = false;
         };
 

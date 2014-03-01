@@ -32,13 +32,14 @@ module.exports = function(app) {
     // Finish with setting up the articleId param
     app.param('articleId', articles.article);
 
-    app.post('/uploadToAmazon', function (req, res, next) {
+    app.post('/uploadToAmazon', authorization.requiresLogin, hasAuthorization, function (req, res, next) {
         var file = req.files.file;
         var extension = file.name.split('.').pop();
         var stream = fs.createReadStream(file.path);
         var mimetype = mime.lookup(file.path);
         var fileName = uuid.v4() + '.' + extension;
         var fileURL = 'https://soldfy.s3.amazonaws.com/' + fileName;
+        console.log(fileURL);
 
         if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
 
@@ -57,7 +58,7 @@ module.exports = function(app) {
             next(new HttpError(400));
         }
 
-        req.on('response', function(res){
+        req.on('end', function(res){
             if (res.statusCode === 200) {
 
                 // Do old upload / client send here:

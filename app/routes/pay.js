@@ -21,9 +21,9 @@ module.exports = function(app) {
 			var paymentOptions = {
 				actionType:   'PAY',
 				currencyCode: 'USD',
-				cancelUrl:  'http://localhost:3000/cancel',
-				returnUrl:  'http://localhost:3000/complete',
-				ipnUrl:     'http://localhost:3000/ipn',
+				cancelUrl:  'http://soldfy.com//cancel',
+				returnUrl:  'http://soldfy.com//complete',
+				ipnUrl:     'http://soldfy.com//ipn',
 				memo: article.title + ' - ' + article._id,
 				reverseAllParallelPaymentsOnError : true,
 				receiverList: {

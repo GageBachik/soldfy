@@ -48,6 +48,7 @@ module.exports = function(app) {
 					return next(err);
 				}
 				//payKey is used to trigger a paypal dialog on the clientside
+				console.log(result);
 				res.json({ payKey: result.payKey });
 			});
 		});
@@ -62,11 +63,12 @@ module.exports = function(app) {
 				return next(err);
 			} else {
 			//Do stuff with original params here
-			console.log(params);
-				if (params.payment_status == 'Completed') {
+				console.log(params);
+				if (params.payment_status === 'Completed') {
 					//Payment has been confirmed as completed
+					console.log('completed');
 				}
-			}	
+			}
 		});
 	});
 

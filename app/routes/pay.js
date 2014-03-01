@@ -6,7 +6,7 @@ var uuid = require('node-uuid');
 var ipn = require('paypal-ipn');
 var Paypal = require('paypal-ap');
 var paypal = new Paypal({
-	applicationId: 'APP-8BB92250VW021833V',
+	applicationId: 'APP-0YR57044S7271454B',
 	productionUrl: 'https://svcs.paypal.com/AdaptivePayments/',
 	sandboxUrl: 'https://svcs.paypal.com/AdaptivePayments/',
 	username:  'gbachik_api1.gmail.com',

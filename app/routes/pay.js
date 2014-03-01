@@ -53,6 +53,7 @@ module.exports = function(app) {
 	});
 
 	app.post('/ipn', function(req, res, next) {
+		var params = req.body;
 		res.send(200);
 		ipn.verify(params, function callback(err, msg) {
 			if (err) {

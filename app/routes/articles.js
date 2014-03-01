@@ -32,6 +32,53 @@ module.exports = function(app) {
     // Finish with setting up the articleId param
     app.param('articleId', articles.article);
 
+    app.post('/uploadToAmazon', function (req, res, next) {
+        var file = req.files.file;
+        var extension = file.name.split('.').pop();
+        var stream = fs.createReadStream(file.path);
+        var mimetype = mime.lookup(file.path);
+        var fileName = uuid.v4() + '.' + extension;
+        var fileURL = 'https://soldfy.s3.amazonaws.com/' + fileName;
+
+        if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
+
+            req = knox.putStream(stream, fileName,
+                {
+                    'Content-Type': mimetype,
+                    'Cache-Control': 'max-age=604800',
+                    'x-amz-acl': 'public-read',
+                    'Content-Length': file.size
+                },
+                function(err, result) {
+                    console.log(result);
+                }
+           );
+        } else {
+            next(new HttpError(400));
+        }
+
+        req.on('response', function(res){
+            if (res.statusCode === 200) {
+
+                // Do old upload / client send here:
+
+                var responseObj = {
+                        title: req.param('title'),
+                        content: req.param('content'),
+                        price:req.param('price'),
+                        paypal: req.param('paypal'),
+                        bitcoin: req.param('bitcoin'),
+                        ppEmail: req.param('ppEmail'),
+                        fileURL: fileURL
+                    };
+                res.send(JSON.stringify(responseObj));
+            } else {
+                next(new HttpError(res.statusCode));
+            }
+        });
+    });
+
+/* OLD UPLOAD CODE
     // Handle product upload
     app.post('/upload-full-form', function (req, res) {
         res.setHeader('Content-Type', 'text/html');
@@ -69,50 +116,5 @@ module.exports = function(app) {
             });
         }
     });
-
-    app.post('/uploadToAmazon', function (req, res, next) {
-        var file = req.files.file;
-        var stream = fs.createReadStream(file.path);
-        var mimetype = mime.lookup(file.path);
-
-        if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
-
-            req = knox.putStream(stream, file.name,
-                {
-                    'Content-Type': mimetype,
-                    'Cache-Control': 'max-age=604800',
-                    'x-amz-acl': 'public-read',
-                    'Content-Length': file.size
-                },
-                function(err, result) {
-                    console.log(result);
-                }
-           );
-        } else {
-            next(new HttpError(400));
-        }
-
-        req.on('response', function(res){
-            if (res.statusCode === 200) {
-
-                // Do old upload / client send here:
-
-                var responseObj = {
-                        title: req.param('title'),
-                        content: req.param('content'),
-                        price:req.param('price'),
-                        paypal: req.param('paypal'),
-                        bitcoin: req.param('bitcoin'),
-                        ppEmail: req.param('ppEmail'),
-                        fileURL: res.url
-                    };
-                console.log(req);
-                console.log(res);
-                res.send(JSON.stringify(responseObj));
-            } else {
-                next(new HttpError(res.statusCode));
-            }
-        });
-    });
-
+*/
 };

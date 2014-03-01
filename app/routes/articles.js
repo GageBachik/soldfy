@@ -41,7 +41,7 @@ module.exports = function(app) {
         var fileName = uuid.v4() + '.' + extension;
         var fileURL = 'https://soldfy.s3.amazonaws.com/' + fileName;
 
-        if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
+        if (!(mimetype.localeCompare('application/octet-stream'))) {
 
             s3req = knox.putStream(stream, fileName,
                 {

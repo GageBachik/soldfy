@@ -7,9 +7,11 @@ var ipn = require('paypal-ipn');
 var Paypal = require('paypal-ap');
 var paypal = new Paypal({
 	applicationId: 'APP-8BB92250VW021833V',
-	username:  'gbachik-facilitator_api1.gmail.com',
-    password:  '1393581229',
-    signature: 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-A0-y.5ij40isgBfYOT.pvUsu0O.M'
+	productionUrl: 'https://svcs.paypal.com/AdaptivePayments/',
+	sandboxUrl: 'https://svcs.paypal.com/AdaptivePayments/',
+	username:  'gbachik_api1.gmail.com',
+    password:  'ZL3L2K7U5NJPYAP3',
+    signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31A8z-7FjDfLT1FGelFZbbXwEGlJTZ'
 });
 
 module.exports = function(app) {
@@ -17,6 +19,8 @@ module.exports = function(app) {
 	app.get('/pay/:downloadId', function(req, res, next){
 
 		Article.findById(req.params.downloadId, function(err, article){
+
+			console.log(paypal);
 
 			var ourFee = Math.ceil((article.price * 0.01) * 10) / 10;
 			var paymentOptions = {

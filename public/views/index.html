@@ -4,7 +4,8 @@
 
 	<section data-ng-show="global.authenticated">
 	<section ng-hide="hasArticles">
-		<h1>Why not create a new product?</h1>
+        <h1>You have no products yet!</h1>
+		<h1>Why not <a href="/#!/articles/create">Create One</a>?</h1>
 	</section>
 	<section ng-show="hasArticles">	
 	<div class="panel panel-default">

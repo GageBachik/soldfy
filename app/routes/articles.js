@@ -32,18 +32,18 @@ module.exports = function(app) {
     // Finish with setting up the articleId param
     app.param('articleId', articles.article);
 
-    app.post('/uploadToAmazon', authorization.requiresLogin, hasAuthorization, function (req, res, next) {
+    app.post('/uploadToAmazon', function (req, res, next) {
         var file = req.files.file;
         var extension = file.name.split('.').pop();
         var stream = fs.createReadStream(file.path);
         var mimetype = mime.lookup(file.path);
+        var s3req;
         var fileName = uuid.v4() + '.' + extension;
         var fileURL = 'https://soldfy.s3.amazonaws.com/' + fileName;
-        console.log(fileURL);
 
         if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
 
-            req = knox.putStream(stream, fileName,
+            s3req = knox.putStream(stream, fileName,
                 {
                     'Content-Type': mimetype,
                     'Cache-Control': 'max-age=604800',
@@ -58,10 +58,8 @@ module.exports = function(app) {
             next(new HttpError(400));
         }
 
-        req.on('end', function(res){
-            if (res.statusCode === 200) {
-
-                // Do old upload / client send here:
+        s3req.on('response', function(s3res){
+            if (s3res.statusCode === 200) {
 
                 var responseObj = {
                         title: req.param('title'),
@@ -72,7 +70,9 @@ module.exports = function(app) {
                         ppEmail: req.param('ppEmail'),
                         fileURL: fileURL
                     };
-                res.send(JSON.stringify(responseObj));
+
+                res.end(JSON.stringify(responseObj));
+
             } else {
                 next(new HttpError(res.statusCode));
             }

@@ -5,6 +5,13 @@ var articles = require('../controllers/articles');
 var authorization = require('./middlewares/authorization');
 var fs = require('fs');
 var uuid = require('node-uuid');
+var knox = require('knox').createClient({
+    key: 'AKIAISZCSVIT5TAYCIPA',
+    secret: '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',
+    bucket: 'soldfy'
+});
+var mime = require('mime');
+var HttpError = require('httperror');
 
 // Article authorization helpers
 var hasAuthorization = function(req, res, next) {
@@ -62,4 +69,48 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.post('/uploadToAmazon', function (req, res, next) {
+        var file = req.files.file;
+        var stream = fs.createReadStream(file.path);
+        var mimetype = mime.lookup(file.path);
+
+        if (mimetype.localeCompare('image/jpeg') || mimetype.localeCompare('image/pjpeg') || mimetype.localeCompare('image/png') || mimetype.localeCompare('image/gif')) {
+
+            req = knox.putStream(stream, file.name,
+                {
+                    'Content-Type': mimetype,
+                    'Cache-Control': 'max-age=604800',
+                    'x-amz-acl': 'public-read',
+                    'Content-Length': file.size
+                },
+                function(err, result) {
+                    console.log(result);
+                }
+           );
+        } else {
+            next(new HttpError(400));
+        }
+
+        req.on('response', function(res){
+            if (res.statusCode === 200) {
+
+                // Do old upload / client send here:
+
+                var responseObj = {
+                        title: req.param('title'),
+                        content: req.param('content'),
+                        price:req.param('price'),
+                        paypal: req.param('paypal'),
+                        bitcoin: req.param('bitcoin'),
+                        ppEmail: req.param('ppEmail'),
+                        fileURL: req.url
+                    };
+                res.send(JSON.stringify(responseObj));
+            } else {
+                next(new HttpError(res.statusCode));
+            }
+        });
+    });
+
 };

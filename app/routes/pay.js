@@ -3,10 +3,13 @@
 var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
 var uuid = require('node-uuid');
+var Bitpay = require('bitpay-node');
+var client = new Bitpay.Client({ apiKey: 'oPpplAptLT1WSag8xQ1nEO9OyznU8MyCDzFfSwkFE' });
+var request = require('request');
 var ipn = require('paypal-ipn');
 var Paypal = require('paypal-ap');
 var paypal = new Paypal({
-	applicationId: 'APP-0YR57044S7271454B',
+	applicationId: 'APP-21S092056P239643G',
 	productionUrl: 'https://svcs.paypal.com/AdaptivePayments/',
 	sandboxUrl: 'https://svcs.paypal.com/AdaptivePayments/',
 	username:  'gbachik_api1.gmail.com',
@@ -19,8 +22,6 @@ module.exports = function(app) {
 	app.get('/pay/:downloadId', function(req, res, next){
 
 		Article.findById(req.params.downloadId, function(err, article){
-
-			console.log(paypal);
 
 			var ourFee = Math.ceil((article.price * 0.01) * 10) / 10;
 			var paymentOptions = {
@@ -58,6 +59,36 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post('/pay/bitcoin', function(req, res){
+
+		console.log(req.body);
+		
+		Article.findById(req.body.artId, function(err, article){
+
+			var invoiceOptions = {
+				price: article.price,
+				currency: 'USD',
+				redirectURL: 'http://www.soldfy.com'
+			};
+			client.createInvoice(invoiceOptions, function(err, invoice) {
+
+				request.post(
+					'http://localhost:3000/dls/create/'+ article._id + '/' + req.body.email+ '/' + invoice.id,
+					{ form: { dlKey: article._id, email: req.body.email } },
+					function (error, response, body) {
+						if (!error && response.statusCode === 200) {
+							console.log(body);
+						}
+					});
+
+				console.log(invoice);
+				res.redirect(invoice.url);
+			});
+
+		});
+
+	});
+
 	app.post('/ipn', function(req, res, next) {
 		var params = req.body;
 		res.send(200);
@@ -83,7 +114,7 @@ module.exports = function(app) {
 
 	app.get('/complete', function(req, res){
 		//triggers when the user completes the payflow successfull
-		res.end('You Paid!');
+		res.end('Your file is being downloaded!');
 	});
 
 };

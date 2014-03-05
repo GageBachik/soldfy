@@ -28,6 +28,10 @@ angular.module('mean').config(['$stateProvider', '$urlRouterProvider',
         url: '/downloads/:downloadId',
         templateUrl: 'views/downloads/view.html',
     })
+      .state('dl by key', {
+        url: '/dls/:dlKey',
+        templateUrl: 'views/dls/view.html',
+    })
       .state('home', {
         url: '/',
         templateUrl: 'views/index.html'

@@ -84,8 +84,16 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
     $scope.payWithPaypal = function(){
         $scope.procPayment = true;
         $http({
+            method: 'POST',
+            url: '/dls/create/' + $scope.currentDownload + '/' + $scope.email
+        }).success(function(/*data, status, headers, config*/) {
+            console.log('dl key created!');
+        }).error(function(/*data, status, headers, config*/) {
+            console.log('dl key creation failed!');
+        });
+        $http({
             method: 'GET',
-            url: '/pay/' + $stateParams.downloadId
+            url: '/pay/' + $scope.currentDownload
         }).success(function(data/*, status, headers, config*/) {
             // data contains the response
             // status is the HTTP status

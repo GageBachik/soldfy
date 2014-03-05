@@ -2,6 +2,7 @@
 
 angular.module('mean.system').controller('IndexController', ['$scope', 'Global', 'Articles', function ($scope, Global, Articles) {
     $scope.global = Global;
+    $scope.procDownload = false;
 
     $scope.findMe = function() {
         Articles.query(function(articles) {

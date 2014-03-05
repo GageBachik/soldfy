@@ -29,35 +29,57 @@ module.exports = function(app) {
 					console.log(invoice);
 					if(invoice.status === 'confirmed' || invoice.status === 'paid' || invoice.status === 'complete'){
 						console.log('confirmed');
-					}
-					else{
+						var files = dl.dlFile;
+						var dlName = dl.name + '.' + dl.dlFile.split('.').pop();
+
+						var options = {
+							BucketName    : 'soldfy',
+							ObjectName    : files,
+						};
+
+						s3.GetObject(options, { stream : true }, function(err, data) {
+							// stream this file to stdout
+							fmt.title('Download Stream Started');
+							res.attachment(dlName);
+							data.Stream.pipe(res);
+						});
+						Dl.remove({ key: dlKey }, function(err) {
+							if (err) {
+								console.log('error delteing file');
+							}
+							else {
+								console.log('file key deleted');
+							}
+						});
+					} else {
 						res.redirect('http://www.soldfy.com');
 					}
 				});
 
+			} else {
+				var files = dl.dlFile;
+				var dlName = dl.name + '.' + dl.dlFile.split('.').pop();
+
+				var options = {
+					BucketName    : 'soldfy',
+					ObjectName    : files,
+				};
+
+				s3.GetObject(options, { stream : true }, function(err, data) {
+					// stream this file to stdout
+					fmt.title('Download Stream Started');
+					res.attachment(dlName);
+					data.Stream.pipe(res);
+				});
+				Dl.remove({ key: dlKey }, function(err) {
+					if (err) {
+						console.log('error delteing file');
+					}
+					else {
+						console.log('file key deleted');
+					}
+				});
 			}
-			var files = dl.dlFile;
-			var dlName = dl.name + '.' + dl.dlFile.split('.').pop();
-
-			var options = {
-				BucketName    : 'soldfy',
-				ObjectName    : files,
-			};
-
-			s3.GetObject(options, { stream : true }, function(err, data) {
-				// stream this file to stdout
-				fmt.title('Download Stream Started');
-				res.attachment(dlName);
-				data.Stream.pipe(res);
-			});
-			Dl.remove({ key: dlKey }, function(err) {
-				if (err) {
-					console.log('error delteing file');
-				}
-				else {
-					console.log('file key deleted');
-				}
-			});
 		});
 
 		//res.end('Successful Download Post!');

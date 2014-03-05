@@ -15,10 +15,17 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-    email: String,
+    email: {
+        type: String,
+        unique: true
+    },
     username: {
         type: String,
         unique: true
+    },
+    btc : {
+        type: Number,
+        default: 0.0000
     },
     hashed_password: String,
     provider: String,

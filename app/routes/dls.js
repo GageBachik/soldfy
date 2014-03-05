@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
 var Dl = mongoose.model('Dl');
+var User = mongoose.model('User');
 var uuid = require('node-uuid');
 var fmt = require('fmt');
 var Bitpay = require('bitpay-node');
@@ -29,6 +30,12 @@ module.exports = function(app) {
 					console.log(invoice);
 					if(invoice.status === 'confirmed' || invoice.status === 'paid' || invoice.status === 'complete'){
 						console.log('confirmed');
+						User.findById(dl.user, function(err, user){
+							user.btc = user.btc + invoice.btcPrice;
+							user.save(function(err){
+								if (err) console.log('Couldnt update btc price');
+							});
+						});
 						var files = dl.dlFile;
 						var dlName = dl.name + '.' + dl.dlFile.split('.').pop();
 
@@ -94,13 +101,15 @@ module.exports = function(app) {
 
 		Article.findById(artId, function(err, art){
 			if (err) return next(err);
+			console.log(art);
 			var dlFile = art.fileURL.split('/').pop();
 			var dl = new Dl({
 				key: oneTimeKey,
 				dlFile: dlFile,
 				name: art.title,
 				btcId: btcId,
-				email: email
+				email: email,
+				user: art.user
 			});
 			dl.save(function(err) {
 				if (err) {

@@ -7,7 +7,12 @@
         <h1>You have no products yet!</h1>
 		<h1>Why not <a href="/#!/articles/create">Create One</a>?</h1>
 	</section>
-	<section ng-show="hasArticles">	
+	<section ng-show="hasArticles">
+
+        <div class="btc">
+            <h2>BTC In Acc:</h2> <p>{{Global.user.btc}}</p>
+        </div>
+
 	<div class="panel panel-default">
  	<!-- Default panel contents -->
   	<div class="panel-heading"> My Products:</div>

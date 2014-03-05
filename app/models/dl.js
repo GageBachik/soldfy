@@ -37,6 +37,11 @@ var DlSchema = new Schema({
         type: String,
         default: '',
         trim: true
+    },
+    user: {
+        type: String,
+        default: '',
+        trim: true
     }
 });
 

@@ -31,7 +31,7 @@ module.exports = function(app) {
 						console.log('confirmed');
 					}
 					else{
-						throw new Error('Invoice not Paid!');
+						res.redirect('http://www.soldfy.com');
 					}
 				});
 

@@ -73,7 +73,7 @@ module.exports = function(app) {
 			client.createInvoice(invoiceOptions, function(err, invoice) {
 
 				request.post(
-					'http://localhost:3000/dls/create/'+ article._id + '/' + req.body.email+ '/' + invoice.id,
+					'http://soldfy.com/dls/create/'+ article._id + '/' + req.body.email+ '/' + invoice.id,
 					{ form: { dlKey: article._id, email: req.body.email } },
 					function (error, response, body) {
 						if (!error && response.statusCode === 200) {

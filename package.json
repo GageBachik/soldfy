@@ -72,7 +72,8 @@
     "fmt": "~0.4.0",
     "bitpay": "0.0.0",
     "request": "~2.34.0",
-    "bitpay-node": "0.0.4"
+    "bitpay-node": "0.0.4",
+    "nodemailer": "~0.6.1"
   },
   "devDependencies": {
     "supertest": "0.8.2",

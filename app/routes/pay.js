@@ -16,6 +16,14 @@ var paypal = new Paypal({
     password:  'ZL3L2K7U5NJPYAP3',
     signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31A8z-7FjDfLT1FGelFZbbXwEGlJTZ'
 });
+var nodemailer = require('nodemailer');
+var smtpTransport = nodemailer.createTransport('SMTP',{
+    service: 'Gmail',
+    auth: {
+        user: 'soldfy@gmail.com',
+        pass: 'lolsauce123'
+    }
+});
 
 module.exports = function(app) {
 
@@ -62,6 +70,7 @@ module.exports = function(app) {
 	app.post('/pay/bitcoin', function(req, res){
 
 		console.log(req.body);
+		var email = req.body.email;
 		
 		Article.findById(req.body.artId, function(err, article){
 
@@ -73,11 +82,29 @@ module.exports = function(app) {
 			client.createInvoice(invoiceOptions, function(err, invoice) {
 
 				request.post(
-					'http://soldfy.com/dls/create/'+ article._id + '/' + req.body.email+ '/' + invoice.id,
-					{ form: { dlKey: article._id, email: req.body.email } },
+					'http://soldfy.com/dls/create/'+ article._id + '/' + email+ '/' + invoice.id,
+					{ form: { dlKey: article._id, email: email } },
 					function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							console.log(body);
+							var mailOptions = {
+								from: 'Soldfy Admin ✔ <soldfy@gmail.com>', // sender address
+								to: email, // list of receivers
+								subject: 'Your One Time Download Key!', // Subject line
+								text: 'Please note this key will only work after the btc invoice it marked as paid!\n Key: '+JSON.parse(body).key+'\n Download Link: http://soldfy.com/#!/dls/ \n Have a great day!' // plaintext body
+								//html: '<b>Hello world ✔</b>' // html body
+							};
+							// send mail with defined transport object
+							smtpTransport.sendMail(mailOptions, function(error, response){
+								if(error){
+									console.log(error);
+								}else{
+									console.log('Message sent: ' + response.message);
+								}
+								// if you don't want to use this transport object anymore, uncomment following line
+								smtpTransport.close(); // shut down the connection pool, no more messages
+							});
+
 						}
 					});
 

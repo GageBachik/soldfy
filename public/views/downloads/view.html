@@ -51,7 +51,7 @@
   <table><tr>
     
     <td>
-    <button class="btn btn-vk floated" ng-show="article.paypal" ng-click="payWithPaypal()"
+    <button class="btn btn-vk floated" ng-disable="!{{email}}" ng-show="article.paypal" ng-click="payWithPaypal()"
         contenteditable="false">Pay with Paypal</button>
     </td>
     

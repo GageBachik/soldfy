@@ -3,6 +3,13 @@
 angular.module('mean.system').controller('IndexController', ['$scope', 'Global', 'Articles', function ($scope, Global, Articles) {
     $scope.global = Global;
     $scope.procDownload = false;
+    $scope.hasBtc = function(){
+        if (Global.user.btc > 0){
+            return true;
+        }else{
+            return false;
+        }
+    };
 
     $scope.findMe = function() {
         Articles.query(function(articles) {

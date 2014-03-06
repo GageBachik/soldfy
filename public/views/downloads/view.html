@@ -33,18 +33,19 @@
 
         <div class="well">
             <p class="">{{article.content}}</p>
-            <p class="">Price: ${{article.price}}</p>
+            <p class="">Price: {{article.price | currency}}</p>
         </div>
         <div class="centered">
             <div class="form-group">
-                <label class="col-md-2 control-label">Your Email:</label>
+                <label class="col-md-2 control-label">*Your Email:</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" ng-model="email" placeholder="Must be the same as your paypal if paying that way!"
                     required="true">
                 </div>
+                <br class="">
+                <br class="">
+                <p>*This is the email where the download wil be sent upon purchase. It MUST match your paypal email if thats how you are paying.</p>
             </div>
-            <br class="">
-            <br class="">
 
         <div class="center-form" contenteditable="false">
            <center>

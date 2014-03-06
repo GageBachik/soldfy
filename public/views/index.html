@@ -10,10 +10,13 @@
 	<section ng-show="hasArticles">
 
         <div class="btc" style="text-align: center;">
-            <h2>BTC In Acc: </h2> 
-            <h3>{{global.user.btc}}</h3>
-            <button class="btn btn-success">Withdrawl</button>
+            <h2 style="float: left;">BTC In Acc: </h2> 
+            <h3 style="float: left; margin-left: 20px; margin-top: 26px;"> {{global.user.btc}} </h3>
+            <button class="btn btn-success" style="float: left; margin-left: 20px; margin-top: 24px;" ng-disabled="!hasBtc()">Withdrawl</button>
         </div>
+        <br />
+        <br />
+        <br />
         <br />
 
 	<div class="panel panel-default">

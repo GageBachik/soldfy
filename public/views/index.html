@@ -12,8 +12,29 @@
         <div class="btc" style="text-align: center;">
             <h2 style="float: left;">BTC In Acc: </h2> 
             <h3 style="float: left; margin-left: 20px; margin-top: 26px;"> {{global.user.btc}} </h3>
-            <button class="btn btn-success" style="float: left; margin-left: 20px; margin-top: 24px;" ng-disabled="!hasBtc()">Withdrawl</button>
+            <button class="btn btn-success" style="float: left; margin-left: 20px; margin-top: 22px;" ng-click="open()" ng-disabled="!hasBtc()">Withdrawl</button>
         </div>
+
+
+        <!-- Modal -->
+<script type="text/ng-template" id="myModalContent.html" />
+        <div class="modal-header">
+            <h3>Enter Your BTC Address:</h3>
+        </div>
+        <div class="modal-body">
+                <input type="text" ng-model="btcAddress" class="form-control" \>
+                 <br />
+                    *Note: Make sure you enter address correctly!
+               
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" ng-click="$dismiss('Cancelled')">Cancel</button>
+            <button class="btn btn-primary" ng-click="$close(btcAddress)">Withdrawl</button>
+        </div>
+    </script>
+
+
         <br />
         <br />
         <br />
